@@ -1,113 +1,30 @@
 import express, { request, response } from "express";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
-import Recipe from "./models/RecipesModel.js";
+import recipeRoutes from "./routes/recipeRoutes.js";
 const app = express();
 
 //Middleware for parsing request
 app.use(express.json());
+
+//Middleware for handling CORS Plolicy
+//Option 1: Allow origins default with cors(*)
+// app.use(cors());
+//Option 2: Allow Custom Origins
+// app.use(cors({
+//     origin: 'http://localhost:3000',
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type'],
+// })
+// );
 
 app.get('/', (request, response) => { //get request
     console.log(request);
     return response.status(234).send('Welcome to Mern Stack Tutorial')
 });
 
-//Route for save a new recipe
-app.post('/recipes', async (request, response) => {
-    try {
-        if (
-            !request.body.name ||
-            !request.body.description ||
-            !request.body.ingrediants ||
-            !request.body.category
-        ) {
-            return response.status(400).send({
-                message: 'Send all required Fields: name, description,ingrediants,category',
-            });
-        }
-        const newRecipe = {
-            name: request.body.name,
-            description: request.body.description,
-            ingrediants: request.body.ingrediants,
-            category: request.body.category,
-        };
-        const recipe = await Recipe.create(newRecipe);
-        return response.status(201).send(recipe);
-    } catch (error) {
-        console.log(error.message);
-        response.status(500).send({ message: error.message });
-    }
-});
+app.use('/recipes', recipeRoutes); //middleware
 
-//Route for GET all recipes from database
-app.get('/recipes', async (request, response) => {
-    try {
-        const recipe = await Recipe.find({});
-        return response.status(200).json({
-            count: recipe.length,
-            data: recipe
-        });
-    } catch (error) {
-        console.log(error.message);
-        response.status(500).send({ message: error.message });
-    }
-})
-
-//Route for GET One recipe from database by ID
-app.get('/recipes/:id', async (request, response) => {
-    try {
-        const { id } = request.params;
-        const recipe = await Recipe.findById(id);
-        return response.status(200).json(recipe);
-    } catch (error) {
-        console.log(error.message);
-        response.status(500).send({ message: error.message });
-    }
-});
-
-//Route for Update a Recipe
-app.put('/recipes/:id', async (request, response) => {
-    try {
-        if (
-            !request.body.name ||
-            !request.body.description ||
-            !request.body.ingrediants ||
-            !request.body.category
-        ) {
-            return response.status(400).send({
-                message: 'Send all required Fields: name, description,ingrediants,category',
-            });
-        }
-        const { id } = request.params;
-        const result = await Recipe.findByIdAndUpdate(id, request.body);
-        if (!result) {
-            return response.status(404).json({ message: 'recipe Not Found' })
-        }
-        return response.status(200).json({
-            message: 'recipe Updated Successfully'
-        })
-    } catch (error) {
-        console.log(error.message);
-        response.status(500).send({ message: error.message });
-    }
-});
-
-//Route for Delete a Recipe
-app.delete('/recipes/:id', async (request, response) => {
-    try {
-        const { id } = request.params;
-        const result = await Recipe.findByIdAndDelete(id);
-        if (!result) {
-            return response.status(404).json({ message: 'Recipe Not Found' })
-        }
-        return response.status(200).json({
-            message: 'Recipe Deleted Successfully'
-        })
-    } catch (error) {
-        console.log(error.message);
-        response.status(500).send({ message: error.message });
-    }
-});
 
 
 //DB Connection
