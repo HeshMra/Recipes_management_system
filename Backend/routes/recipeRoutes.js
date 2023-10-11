@@ -9,10 +9,11 @@ router.post('/', async (request, response) => {
             !request.body.name ||
             !request.body.description ||
             !request.body.ingrediants ||
-            !request.body.category
+            !request.body.category ||
+            !request.body.image
         ) {
             return response.status(400).send({
-                message: 'Send all required Fields: name, description,ingrediants,category',
+                message: 'Send all required Fields: name, description,ingrediants,category,image',
             });
         }
         const newRecipe = {
@@ -20,6 +21,7 @@ router.post('/', async (request, response) => {
             description: request.body.description,
             ingrediants: request.body.ingrediants,
             category: request.body.category,
+            image: request.body.image,
         };
         const recipe = await Recipe.create(newRecipe);
         return response.status(201).send(recipe);
@@ -62,10 +64,11 @@ router.put('/:id', async (request, response) => {
             !request.body.name ||
             !request.body.description ||
             !request.body.ingrediants ||
-            !request.body.category
+            !request.body.category ||
+            !request.body.image
         ) {
             return response.status(400).send({
-                message: 'Send all required Fields: name, description,ingrediants,category',
+                message: 'Send all required Fields: name, description,ingrediants,category,image',
             });
         }
         const { id } = request.params;
