@@ -65,6 +65,49 @@ app.get('/recipes/:id', async (request, response) => {
     }
 });
 
+//Route for Update a Recipe
+app.put('/recipes/:id', async (request, response) => {
+    try {
+        if (
+            !request.body.name ||
+            !request.body.description ||
+            !request.body.ingrediants ||
+            !request.body.category
+        ) {
+            return response.status(400).send({
+                message: 'Send all required Fields: name, description,ingrediants,category',
+            });
+        }
+        const { id } = request.params;
+        const result = await Recipe.findByIdAndUpdate(id, request.body);
+        if (!result) {
+            return response.status(404).json({ message: 'recipe Not Found' })
+        }
+        return response.status(200).json({
+            message: 'recipe Updated Successfully'
+        })
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({ message: error.message });
+    }
+});
+
+//Route for Delete a Recipe
+app.delete('/recipes/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+        const result = await Recipe.findByIdAndDelete(id);
+        if (!result) {
+            return response.status(404).json({ message: 'Recipe Not Found' })
+        }
+        return response.status(200).json({
+            message: 'Recipe Deleted Successfully'
+        })
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({ message: error.message });
+    }
+});
 
 
 //DB Connection
