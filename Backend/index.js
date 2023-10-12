@@ -3,6 +3,7 @@ import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import recipeRoutes from "./routes/recipeRoutes.js";
 import { userRouter } from "./routes/userRoute.js";
+import cors from 'cors';
 const app = express();
 
 //Middleware for parsing request
@@ -10,7 +11,7 @@ app.use(express.json());
 
 //Middleware for handling CORS Plolicy
 //Option 1: Allow origins default with cors(*)
-// app.use(cors());
+app.use(cors());
 //Option 2: Allow Custom Origins
 // app.use(cors({
 //     origin: 'http://localhost:3000',
