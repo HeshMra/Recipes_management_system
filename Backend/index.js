@@ -2,6 +2,7 @@ import express, { request, response } from "express";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import recipeRoutes from "./routes/recipeRoutes.js";
+import { userRouter } from "./routes/userRoute.js";
 const app = express();
 
 //Middleware for parsing request
@@ -24,7 +25,7 @@ app.get('/', (request, response) => { //get request
 });
 
 app.use('/recipes', recipeRoutes); //middleware
-
+app.use("/auth",userRouter); //route for authentication
 
 
 //DB Connection
