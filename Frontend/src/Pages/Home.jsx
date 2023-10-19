@@ -25,7 +25,7 @@ const Home = () => {
         <p>"Effective recipes management is essential for a well-organized kitchen, helping you keep track of ingredients, preparation steps, and cooking times to ensure delicious and consistent dishes every time."</p>
 
         <div class="mt-10">
-          <a href="##" class="bg-yellow-500 rounded-3xl py-3 px-8 font-medium inline-block mr-4 hover:bg-transparent
+          <a href="./recipes/details" class="bg-yellow-500 rounded-3xl py-3 px-8 font-medium inline-block mr-4 hover:bg-transparent
            hover:border-yellow-500 hover:text-white hover:border border border-transparent duration-300">Show Recipes</a>
         </div>
         <img src="images/chef.png" class="w-full xl:w-1/3 xl:absolute bottom-0 right-20"></img>
