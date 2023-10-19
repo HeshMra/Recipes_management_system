@@ -40,7 +40,7 @@ const ShowAllRecipes = () => {
         Show All Recipes
       </h1>
 
-      <div className="px-48 py-20 grid grid-cols-4 gap-4">
+      <div className="px-2 sm:px-8 md:px-20 lg:px-32 py-20 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
         {loading ? (
           <Spinner />
         ) : (
